@@ -1,6 +1,7 @@
 package com.fycd.contact
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.apache.shiro.crypto.hash.Sha256Hash
 import org.apache.shiro.subject.Subject
 import org.apache.shiro.SecurityUtils
@@ -8,6 +9,8 @@ import org.apache.shiro.SecurityUtils
 class TaoMemberController {
 
 	def authService
+	// Export service provided by Export plugin
+	def exportService
 	
 	static navigation = [
 		group:'tabs',
@@ -37,11 +40,20 @@ class TaoMemberController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 20, 1000)
-		def results = authService.getAvailableTaoMembers(SecurityUtils.subject, params)
-		println "count: ${results[0]}, ${results[1]}"
-		println results
-		[taoMemberInstanceList: results[0], taoMemberInstanceTotal: results[1]]
+		if(params?.format && params.format != "html"){
+			response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
+			response.setHeader("Content-disposition", "attachment; filename=books.${params.extension}")
+			params.max = 10000
+			def results = authService.getAvailableTaoMembers(SecurityUtils.subject, params)
+			exportService.export(params.format, response.outputStream, results[0], [:], [:])
+		} else {
+			params.max = Math.min(params.max ? params.int('max') : 20, 1000)
+			def results = authService.getAvailableTaoMembers(SecurityUtils.subject, params)
+			println "count: ${results[0]}, ${results[1]}"
+			println results
+			[taoMemberInstanceList: results[0], taoMemberInstanceTotal: results[1]]
+		}
+		
 			
 //        [taoMemberInstanceList: TaoMember.list(params), taoMemberInstanceTotal: TaoMember.count()]
     }

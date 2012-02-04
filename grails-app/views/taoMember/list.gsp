@@ -6,6 +6,7 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'taoMember.label', default: 'TaoMember')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
+        <export:resource />
     </head>
     <body>
 		<shiro:hasAnyRoles name="admin, master, regionLeader">
@@ -92,6 +93,7 @@
             <div class="paginateButtons">
                 <g:paginate total="${taoMemberInstanceTotal}" />
             </div>
+            <export:formats formats="['csv', 'excel', 'pdf', 'rtf', 'xml']" />
         </div>
     </body>
 </html>
