@@ -189,6 +189,19 @@
                                 </td>
 							
                             </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  	<label for="grade"><g:message code="taoMember.grade.label" default="Grade" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'grade', 'errors')}">
+	                            	<g:select name="grade" from="${grades}" value="${taoMemberInstance?.grade?.encodeAsHTML()}" noSelection="['null': 'Please Choose...']"/>
+                                </td>
+
+                                <td valign="top" class="name"/>
+                                <td valign="top" class="value"/>
+                            </tr>
+                            
 							
                             <tr class="prop">
                                 <td valign="top" class="name">

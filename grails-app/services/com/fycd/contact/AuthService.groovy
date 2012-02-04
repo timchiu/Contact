@@ -36,20 +36,25 @@ class AuthService {
 			ids.addAll(getTransmittingMasterResults(subject.principal))
 			ids.addAll(getRegionLeaderResults(subject.principal))
 			ids.addAll(getGroupLeaderResults(subject.principal))
+			ids.addAll(findUnder21Results(subject.principal))
 			ids.addAll(getMemberResults(subject.principal))
 		} else if (subject.hasRole("regionLeader")) {
 			ids.addAll(getRegionLeaderResults(subject.principal))
 			ids.addAll(getGroupLeaderResults(subject.principal))
+			ids.addAll(findUnder21Results(subject.principal))
 			ids.addAll(getMemberResults(subject.principal))
 		} else if (subject.hasRole("groupLeader")) {
 			ids.addAll(getGroupLeaderResults(subject.principal))
+			ids.addAll(findUnder21Results(subject.principal))
+			ids.addAll(getMemberResults(subject.principal))
+		} else if (subject.hasRole("academicLeader")) {
+			ids.addAll(findUnder21Results(subject.principal))
 			ids.addAll(getMemberResults(subject.principal))
 		} else if (subject.hasRole("member")) {
 			ids.addAll(getMemberResults(subject.principal))
 		}
 		def results = TaoMember.findAllByIdInList(new ArrayList(ids), params)
 		return [results, ids.size()]
-//		return ids
 	}
 	
 //	def getMemberResults (TaoMember user, params) {
@@ -113,6 +118,11 @@ class AuthService {
 		groups.each {
 			results.addAll(it.members*.id) 
 		}
+		return results
+	}
+
+	def findUnder21Results (TaoMember user) {
+		def results = TaoMember.executeQuery("select distinct m.id from TaoMember m where m.age != null and m.age <= 21")
 		return results
 	}
 

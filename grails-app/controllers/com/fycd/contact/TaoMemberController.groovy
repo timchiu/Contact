@@ -17,7 +17,8 @@ class TaoMemberController {
 		isVisible: { (SecurityUtils.subject?.isAuthenticated() || SecurityUtils.subject?.isRemembered()) &&
 			(SecurityUtils.subject?.hasRole(["member"]) || SecurityUtils.subject?.hasRole(["groupLeader"]) ||
 				SecurityUtils.subject?.hasRole(["regionLeader"]) || SecurityUtils.subject?.hasRole(["seniorLecturer"]) ||
-				SecurityUtils.subject?.hasRole(["master"]) || (SecurityUtils.subject?.hasRole(["admin"]))) }
+				SecurityUtils.subject?.hasRole(["master"]) || (SecurityUtils.subject?.hasRole(["admin"])) ||
+				SecurityUtils.subject?.hasRole(["academicLeader"])) }
 	]
 
 	static genderList = ["Man", "Woman", "Boy", "Girl"]
@@ -27,6 +28,7 @@ class TaoMemberController {
 //	static languageList = ["English", "Mandarin", "Cantonese", "Vietnamese"]
 	
 //	static taoGroupNames = null
+	static grades = 0..17
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -47,7 +49,7 @@ class TaoMemberController {
     def create = {
         def taoMemberInstance = new TaoMember()
         taoMemberInstance.properties = params
-        return [taoMemberInstance: taoMemberInstance, genderList: genderList, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()]
+        return [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()]
     }
 	
 	def getTaoGroupNames = {
@@ -100,7 +102,7 @@ class TaoMemberController {
             redirect(action: "show", id: taoMemberInstance.id)
         }
         else {
-            render(view: "create", model: [taoMemberInstance: taoMemberInstance, genderList: genderList, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()])
+            render(view: "create", model: [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()])
         }
     }
 
@@ -122,7 +124,7 @@ class TaoMemberController {
             redirect(action: "list")
         }
         else {
-            return [taoMemberInstance: taoMemberInstance, genderList: genderList, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()]
+            return [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()]
         }
     }
 

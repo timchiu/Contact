@@ -34,6 +34,7 @@ class TaoMember extends User implements Comparable {
 	List contactRecords
 	Integer excelId
 	Integer age
+	Integer grade
 	
 	Address address
 	
@@ -67,6 +68,7 @@ class TaoMember extends User implements Comparable {
 		taoReceivingTime(nullable : true)
 		taoGroup(nullable : true)
 		age(nullable : true)
+		grade(nullable : true)
     }
 	
 //	static belongsTo = [ contactGroup : ContactGroup, currentTemple : Temple, taoReceivingTemple : Temple, introducer : TaoMember, guarantor : TaoMember, transmittingMaster : TaoMember ]

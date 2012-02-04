@@ -22,7 +22,8 @@ class BootStrap {
 			def regionLeaderRole = Role.findByName("regionLeader") ?: new Role(name: "regionLeader", permissions: ["taomember:*:*", "contactgroup:*:*", "taoregion:*:*", "contactrecord:saveFromForm:*"]).save(failOnError: true)
 			def seniorLecturerRole = Role.findByName("seniorLecturer") ?: new Role(name: "seniorLecturer", permissions: ["taomember:*:*", "contactgroup:*:*", "taoregion:*:*", "contactrecord:saveFromForm:*"]).save(failOnError: true)
 			def masterRole = Role.findByName("master") ?: new Role(name: "master", permissions: ["taomember:*:*", "contactgroup:*:*", "taoregion:*:*", "contactrecord:saveFromForm:*"]).save(failOnError: true)
-
+			def academicLeaderRole = Role.findByName("academicLeader") ?: new Role(name: "academicLeader", permissions: ["taomember:*:*", "contactrecord:saveFromForm:*"]).save(failOnError: true)
+			
 
 			// calculate age
 			def users = TaoMember.findAllByBirthDateIsNotNullAndAgeIsNull();

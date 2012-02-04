@@ -27,6 +27,9 @@
                             <g:sortableColumn property="englishName" title="${message(code: 'taoMember.englishName.label', default: 'E.Name')}" />
                             <g:sortableColumn property="gender" title="${message(code: 'taoMember.gender.label', default: 'Gender')}" />
                             <g:sortableColumn property="age" title="${message(code: 'taoMember.age.label', default: 'Age')}" />
+                            <shiro:hasAnyRoles name="academicLeader">
+	                        	<g:sortableColumn property="grade" title="${message(code: 'taoMember.grade.label', default: 'Grade')}" />
+                            </shiro:hasAnyRoles>
                             <th><g:message code="taoMember.languages.label" default="Languages" /></th>
                             <g:sortableColumn property="phoneNumber" title="${message(code: 'taoMember.phoneNumber.label', default: 'Telephone')}" />
                             <g:sortableColumn property="email" title="${message(code: 'taoMember.email.label', default: 'Email')}" />
@@ -54,6 +57,11 @@
                             	
                             </td>
                             <td>${fieldValue(bean: taoMemberInstance, field: "age")}</td>
+                            
+                            <shiro:hasAnyRoles name="academicLeader">
+                            	<td>${fieldValue(bean: taoMemberInstance, field: "grade")}</td>
+                            </shiro:hasAnyRoles>
+                            
                             <td>
 	                                <g:each in="${taoMemberInstance?.languages?}" var="l">
 	                                    ${l?.encodeAsHTML()}<br>
