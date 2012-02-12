@@ -68,7 +68,7 @@ class TaoMember extends User implements Comparable {
 		taoReceivingTime(nullable : true)
 		taoGroup(nullable : true)
 		age(nullable : true)
-		grade(nullable : true)
+		grade(nullable : true, blank: true, default: 0)
     }
 	
 //	static belongsTo = [ contactGroup : ContactGroup, currentTemple : Temple, taoReceivingTemple : Temple, introducer : TaoMember, guarantor : TaoMember, transmittingMaster : TaoMember ]
