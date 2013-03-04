@@ -25,14 +25,8 @@ class TaoMemberController {
 	]
 
 	static genderList = ["Man", "Woman", "Boy", "Girl"]
-	
 	static educationLevels = ["Kindergarden", "Elementary", "Middle School", "High School", "Bachelors", "Masters", "PhD"]
-	
-//	static languageList = ["English", "Mandarin", "Cantonese", "Vietnamese"]
-	
-//	static taoGroupNames = null
 	static grades = 0..17
-	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -49,13 +43,8 @@ class TaoMemberController {
 		} else {
 			params.max = Math.min(params.max ? params.int('max') : 20, 1000)
 			def results = authService.getAvailableTaoMembers(SecurityUtils.subject, params)
-			println "count: ${results[0]}, ${results[1]}"
-			println results
 			[taoMemberInstanceList: results[0], taoMemberInstanceTotal: results[1]]
 		}
-		
-			
-//        [taoMemberInstanceList: TaoMember.list(params), taoMemberInstanceTotal: TaoMember.count()]
     }
 
     def create = {

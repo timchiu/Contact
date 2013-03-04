@@ -38,6 +38,8 @@
                         	<g:sortableColumn property="introducer" title="${message(code: 'taoMember.introducer.label', default: 'Introducer')}" />
                         	<g:sortableColumn property="guarantor" title="${message(code: 'taoMember.guarantor.label', default: 'Guarantor')}" />
                         	<g:sortableColumn property="taoReceivingDate" title="${message(code: 'taoMember.taoReceivingDate.label', default: 'Tao Receiving Date')}" />
+                        	<g:sortableColumn property="taoSeminarDate" title="${message(code: 'taoMember.taoSeminarDate.label', default: 'Tao Seminar Date')}" />
+                        	<g:sortableColumn property="completedTaoSeminar" title="${message(code: 'taoMember.completedTaoSeminar.label', default: 'Completed Tao Seminar')}" />
                         	<g:sortableColumn property="contactRecords.dateCreated" title="${message(code: 'taoMember.contactRecords.dateCreated.label', default: 'Last Contacted Date')}" />
                         	<g:sortableColumn property="contactRecords.createdBy" title="${message(code: 'taoMember.contactRecords.createdBy.label', default: 'Last Contacted By')}" />
 							<g:sortableColumn property="contactRecords.description" title="${message(code: 'taoMember.contactRecords.description.label', default: 'Last Contact Details')}" />
@@ -74,6 +76,9 @@
                             <td>${fieldValue(bean: taoMemberInstance, field: "introducer")}</td>
                             <td>${fieldValue(bean: taoMemberInstance, field: "guarantor")}</td>
                             <td><g:formatDate format="yyyy-MM-dd" date="${taoMemberInstance?.taoReceivingDate}"/></td>
+                            <td><g:formatDate format="yyyy-MM-dd" date="${taoMemberInstance?.taoSeminarDate}"/></td>
+                            <td>${fieldValue(bean: taoMemberInstance, field: "completedTaoSeminar")}</td>
+                            
                             <!-- td><g:link action="show" id="${taoMemberInstance.id}">${fieldValue(bean: taoMemberInstance, field: "contactGroup")}</g:link></td -->
                             <g:if test="${taoMemberInstance?.contactRecords?.size() == 0}">
                             	<td></td>

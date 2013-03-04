@@ -5,28 +5,8 @@ import com.fycd.contact.TaoMember
 class AuthService {
 
     static transactional = true
-
-//    boolean hasAnyRoles(List<String> roles) {
-//		def subject = SecurityUtils.subject
-//		if (!(subject?.isAuthenticated() || subject?.isRemembered())) {
-//			return false
-//		} else {
-//			boolean[] flags = subject.principal.hasRoles(roles)
-//			flags.each {
-//				if (it) {
-//					return true
-//				}  
-//			}
-//			return false
-//		} 
-//    }
-//	
-//	boolean displayContactGroupMenu() {
-//		return hasAnyRoles(["admin"])
-//	}
 	
 	def getAvailableTaoMembers(subject, params) {
-//		def entries = new LinkedHashSet<TaoMember>()
 
 		def ids = new HashSet<Long>()
 		if (subject.hasRole("admin")) {
@@ -41,11 +21,9 @@ class AuthService {
 		} else if (subject.hasRole("regionLeader")) {
 			ids.addAll(getRegionLeaderResults(subject.principal))
 			ids.addAll(getGroupLeaderResults(subject.principal))
-			ids.addAll(findUnder21Results(subject.principal))
 			ids.addAll(getMemberResults(subject.principal))
 		} else if (subject.hasRole("groupLeader")) {
 			ids.addAll(getGroupLeaderResults(subject.principal))
-			ids.addAll(findUnder21Results(subject.principal))
 			ids.addAll(getMemberResults(subject.principal))
 		} else if (subject.hasRole("academicLeader")) {
 			ids.addAll(findUnder21Results(subject.principal))
@@ -82,8 +60,8 @@ class AuthService {
 //	}
 
 	def getMemberResults (TaoMember user) {
-		def results = TaoMember.executeQuery("select distinct m.id from TaoMember m where m.introducer = :user or m.guarantor = :user or m.contactPerson = :user",
-								[user: user])
+		def results = TaoMember.executeQuery("select distinct m.id from TaoMember m where (m.introducer = :user or m.guarantor = :user or m.contactPerson = :user) and (m.archived is null or m.archived = :archived)",
+								[user: user, archived: Boolean.FALSE])
 		return results
 	}
 		
@@ -92,8 +70,8 @@ class AuthService {
 		def results = new HashSet()
 		def centers = TaoCenter.executeQuery('from TaoCenter where :leader in elements(leaders)', [leader: user])
 		centers.each {
-			it.regions.each {  
-				it.groups.each {
+			it.regions?.each {  
+				it.groups?.each {
 					results.addAll(it.members*.id)
 				}
 			}  
@@ -106,7 +84,11 @@ class AuthService {
 		def regions = TaoRegion.findAllByPrimaryLeaderOrBackupLeader(user, user)
 		regions.each {
 			it.groups.each {
-				results.addAll(it.members*.id)
+				it.members?.each {
+					if (!it.archived) {
+						results.add(it.id)
+					}
+				}
 			} 
 		}
 		return results
@@ -115,17 +97,20 @@ class AuthService {
 	def getGroupLeaderResults (TaoMember user) {
 		def results = new HashSet()
 		def groups = ContactGroup.findAllByLeader(user)
-		groups.each {
-			results.addAll(it.members*.id) 
+		groups?.each {
+			it.members?.each {
+				if (!it.archived) {
+					results.add(it.id)
+				}
+			}
 		}
 		return results
 	}
 
 	def findUnder21Results (TaoMember user) {
-		def results = TaoMember.executeQuery("select distinct m.id from TaoMember m where m.age != null and m.age <= 21")
+		def results = TaoMember.executeQuery("select distinct m.id from TaoMember m where m.age != null and m.age <= 21 and m.age > 0 and (m.archived is null or m.archived = :archived)", [archived: Boolean.FALSE])
 		return results
 	}
-
 	
 }
 

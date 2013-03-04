@@ -287,8 +287,17 @@
 	                                    <g:select name="grade" from="${grades}" value="${taoMemberInstance?.grade ?: 0}" noSelection="['null': 'Please Choose...']"/>
                                 </td>
 
-                                <td valign="top" class="name"/>
-                                <td valign="top" class="value"/>
+                                <td valign="top" class="name">
+                                  <label for="archived"><g:message code="taoMember.archived.label" default="Archived" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'archived', 'errors')}">
+                                	<shiro:hasAnyRoles name="admin, master">
+	                                    <g:checkBox name="archived" value="${taoMemberInstance?.archived}" />
+                                    </shiro:hasAnyRoles>
+                                	<shiro:hasAnyRoles name="seniorLecturer, regionLeader, groupLeader, academicLeader">
+	                                    ${fieldValue(bean: taoMemberInstance, field: "archived")}
+	                                </shiro:hasAnyRoles>                                
+                                </td>
                             </tr>
 	                        </shiro:hasAnyRoles>
                         
@@ -396,7 +405,21 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'transmittingMaster', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer">
-	                                    <gui:autoComplete id="transmittingMaster" controller="taoMember" action="autoCompleteTransmittingMaster" value="${taoMemberInstance?.transmittingMaster?.toString()}"/>
+                                		<select name="transmittingMaster.id" id="transmittingMaster.id" >
+                                			<g:if test="${taoMemberInstance.transmittingMaster == 0 }">
+												<option value="null">Please choose...</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+                                			</g:if>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster == 1064 }">
+												<option value="1064" selected>周宏華</option>
+												<option value="1067">林慧玲</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster == 1067 }">
+												<option value="1064" selected>周宏華</option>
+												<option value="1067" selected>林慧玲</option>
+                                			</g:elseif>
+										</select>
                                     </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "transmittingMaster")}
@@ -432,26 +455,50 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="vegetarianDate"><g:message code="taoMember.vegetarianDate.label" default="Vegetarian Date" /></label>
+                                  <label for="taoSeminarDate"><g:message code="taoMember.taoSeminarDate.label" default="Tao Seminar Date" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'vegetarianDate', 'errors')}">
-                                	<shiro:hasAnyRoles name="admin, master, seniorLecturer">
-	                                    <g:datePicker name="vegetarianDate" precision="day" value="${taoMemberInstance?.vegetarianDate}" default="none" noSelection="['': '']" />
+                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoSeminarDate', 'errors')}">
+                                	<shiro:hasAnyRoles name="admin, master">
+	                                    <g:datePicker name="taoSeminarDate" precision="day" value="${taoMemberInstance?.taoSeminarDate}" default="none" noSelection="['': '']" />
                                     </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader">
-	                                    ${fieldValue(bean: taoMemberInstance, field: "vegetarianDate")}
+	                                    ${fieldValue(bean: taoMemberInstance, field: "taoSeminarDate")}
 	                                </shiro:hasAnyRoles>                                
                                 </td>
-                                							
+                                <td valign="top" class="name">
+                                  <label for="taoSeminarNotes"><g:message code="taoMember.taoSeminarNotes.label" default="Tao Seminar Notes" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoSeminarNotes', 'errors')}">
+                                	<shiro:hasAnyRoles name="admin, master">
+	                                    <g:textArea name="taoSeminarNotes" rows="2" cols="40" value="${taoMemberInstance?.taoSeminarNotes}"/><br/>
+                                    </shiro:hasAnyRoles>
+									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader, seniorLecturer">
+	                                    ${fieldValue(bean: taoMemberInstance, field: "taoSeminarNotes")}
+	                                </shiro:hasAnyRoles>                                
+                                </td>
+                            </tr>
+
+                            <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="completedTaoSeminar"><g:message code="taoMember.completedTaoSeminar.label" default="Completed Tao Seminar" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'completedTaoSeminar', 'errors')}">
-                                	<shiro:hasAnyRoles name="admin, master, seniorLecturer, academicLeader">
+                                	<shiro:hasAnyRoles name="admin, master">
 	                                    <g:checkBox name="completedTaoSeminar" value="${taoMemberInstance?.completedTaoSeminar}" />
                                     </shiro:hasAnyRoles>
-									<shiro:hasAnyRoles name="member, regionLeader, groupLeader">
+									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader, seniorLecturer">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "completedTaoSeminar")}
+	                                </shiro:hasAnyRoles>                                
+                                </td>
+                                <td valign="top" class="name">
+                                  <label for="vegetarianDate"><g:message code="taoMember.vegetarianDate.label" default="Vegetarian Date" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'vegetarianDate', 'errors')}">
+                                	<shiro:hasAnyRoles name="admin, master">
+	                                    <g:datePicker name="vegetarianDate" precision="day" value="${taoMemberInstance?.vegetarianDate}" default="none" noSelection="['': '']" />
+                                    </shiro:hasAnyRoles>
+									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader, seniorLecturer">
+	                                    ${fieldValue(bean: taoMemberInstance, field: "vegetarianDate")}
 	                                </shiro:hasAnyRoles>                                
                                 </td>
                             </tr>

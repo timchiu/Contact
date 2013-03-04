@@ -298,24 +298,35 @@
 							
                             </tr>
 							
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="taoSeminarDate"><g:message code="taoMember.taoSeminarDate.label" default="Tao Seminar Date" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoSeminarDate', 'errors')}">
+                                    <g:datePicker name="taoSeminarDate" precision="day" value="${taoMemberInstance?.taoSeminarDate}" default="none" noSelection="['': '']" />
+                                </td>
+                                <td valign="top" class="name">
+                                  <label for="taoSeminarNotes"><g:message code="taoMember.taoSeminarNotes.label" default="Tao Seminar Notes" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoSeminarNotes', 'errors')}">
+                                    <g:textArea name="taoSeminarNotes" rows="2" cols="40" value="${taoMemberInstance?.taoSeminarNotes}"/><br/>
+                                </td>
+                            </tr>
                         
 							
                             <tr class="prop">
-							
-                                <td valign="top" class="name">
-                                  <label for="vegetarianDate"><g:message code="taoMember.vegetarianDate.label" default="Vegetarian Date" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'vegetarianDate', 'errors')}">
-                                    <g:datePicker name="vegetarianDate" precision="day" value="${taoMemberInstance?.vegetarianDate}" default="none" noSelection="['': '']" />
-                                </td>
-                                							
                                 <td valign="top" class="name">
                                   <label for="completedTaoSeminar"><g:message code="taoMember.completedTaoSeminar.label" default="Completed Tao Seminar" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'completedTaoSeminar', 'errors')}">
                                     <g:checkBox name="completedTaoSeminar" value="${taoMemberInstance?.completedTaoSeminar}" />
                                 </td>
-							
+                                <td valign="top" class="name">
+                                  <label for="vegetarianDate"><g:message code="taoMember.vegetarianDate.label" default="Vegetarian Date" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'vegetarianDate', 'errors')}">
+                                    <g:datePicker name="vegetarianDate" precision="day" value="${taoMemberInstance?.vegetarianDate}" default="none" noSelection="['': '']" />
+                                </td>
                             </tr>
 							
                             <tr class="prop">
