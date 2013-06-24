@@ -10,8 +10,9 @@ class AuthService {
 
 		def ids = new HashSet<Long>()
 		if (subject.hasRole("admin")) {
-			def results = TaoMember.list(params);
-			return [results, TaoMember.count()]
+//			def results = TaoMember.list(params);
+//			return [results, TaoMember.count()]
+			ids.addAll(findUnArchivedUsers())
 		} else if (subject.hasRole("master") || (subject.hasRole("seniorLecturer"))) { // add seniorlecturer roles as leaders of taocenter
 			ids.addAll(getTransmittingMasterResults(subject.principal))
 			ids.addAll(getRegionLeaderResults(subject.principal))
@@ -72,7 +73,12 @@ class AuthService {
 		centers.each {
 			it.regions?.each {  
 				it.groups?.each {
-					results.addAll(it.members*.id)
+//					results.addAll(it.members*.id)
+					it.members?.each {
+						if (!it.archived) {
+							results.add(it.id)
+						}
+					}
 				}
 			}  
 		}
@@ -112,5 +118,21 @@ class AuthService {
 		return results
 	}
 	
+	def findArchivedUsers() {
+		def results = TaoMember.executeQuery("select distinct m.id from TaoMember m where m.archived = :archived)", [archived: Boolean.TRUE])
+		return results
+	}
+
+	def findUnArchivedUsers() {
+		def results = TaoMember.executeQuery("select distinct m.id from TaoMember m where m.archived is null or m.archived = :archived)", [archived: Boolean.FALSE])
+		return results
+	}
+
+	def getArchivedUsers(params) {
+		def ids = TaoMember.executeQuery("select distinct m.id from TaoMember m where m.archived = :archived)", [archived: Boolean.TRUE])
+		def results = TaoMember.findAllByIdInList(new ArrayList(ids), params)
+		return [results, ids.size()]
+	}
+
 }
 
