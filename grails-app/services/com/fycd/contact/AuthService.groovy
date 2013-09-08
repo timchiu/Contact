@@ -9,11 +9,11 @@ class AuthService {
 	def getAvailableTaoMembers(subject, params) {
 
 		def ids = new HashSet<Long>()
-		if (subject.hasRole("admin")) {
+		if (subject.hasRole("admin") || subject.hasRole("master")) {
 //			def results = TaoMember.list(params);
 //			return [results, TaoMember.count()]
 			ids.addAll(findUnArchivedUsers())
-		} else if (subject.hasRole("master") || (subject.hasRole("seniorLecturer"))) { // add seniorlecturer roles as leaders of taocenter
+		} else if (subject.hasRole("seniorLecturer")) { // add seniorlecturer roles as leaders of taocenter
 			ids.addAll(getTransmittingMasterResults(subject.principal))
 			ids.addAll(getRegionLeaderResults(subject.principal))
 			ids.addAll(getGroupLeaderResults(subject.principal))

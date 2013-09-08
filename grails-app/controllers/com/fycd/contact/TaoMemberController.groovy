@@ -220,7 +220,6 @@ class TaoMemberController {
 	}
 
 	def search = {
-//		render TaoMember.search(params.q, params)
 		println "searching for ${params.q}"
 		def q = params.q
 		if (q) {
@@ -229,12 +228,30 @@ class TaoMemberController {
 			println "q: " + q
 		}
 		params.max = Math.min(params.max ? params.int('max') : 20, 1000)
-//		def searchResults = TaoMember.search(params.q, params)
 		def searchResults = TaoMember.search(q, params)
-		flash.message = "${searchResults.total} results found for search: ${params.q}"
-//		flash.q = params.q
-		flash.q = q
-		return [searchResults:searchResults.results, resultCount:searchResults.total]
-	  }
+
+				def subject = SecurityUtils.subject
+		if (subject.hasRole("regionLeader") || subject.hasRole("master") || subject.hasRole("seniorLecturer") || subject.hasRole("admin")) {
+			flash.message = "${searchResults.total} results found for search: ${params.q}"
+			flash.q = q
+			return [searchResults:searchResults.results, resultCount:searchResults.total]
+		} else {
+			def accessibleMembers = authService.getAvailableTaoMembers(subject, params)[0]
+			def filteredSearchResults = []
+			def results = searchResults.results
+			for (result in results) {
+				def memberId = result.id
+				for (accessibleMember in accessibleMembers) {
+					def accessibleMemberId = accessibleMember.id
+					if (accessibleMemberId == memberId) {
+						filteredSearchResults.add(result)
+					}
+				}
+			}
+			flash.message = "${filteredSearchResults.size()} results found for search: ${params.q}"
+			flash.q = q
+			return [searchResults: filteredSearchResults, resultCount: filteredSearchResults.size()]
+		}
+	}
 	
 }

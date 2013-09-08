@@ -23,9 +23,6 @@
             <div class="dialog">
                 <table>
                     <tbody>
-                    
-
-						
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="contactGroup.name.label" default="Name" /></td>
                             <td valign="top" class="value">${fieldValue(bean: contactGroupInstance, field: "name")}</td>
@@ -33,25 +30,20 @@
                             <td valign="top" class="name"><g:message code="contactGroup.leader.label" default="Leader" /></td>
                             <td valign="top" class="value"><g:link controller="taoMember" action="show" id="${contactGroupInstance?.leader?.id}">${contactGroupInstance?.leader?.encodeAsHTML()}</g:link></td>
                         </tr>
-						
-                    
-
-						
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="contactGroup.members.label" default="Members" /></td>
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
                                 <g:each in="${contactGroupInstance.members}" var="m">
-                                    <li><g:link controller="taoMember" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></li>
+                                	<g:if test="${!m.archived}">
+										<li><g:link controller="taoMember" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></li>
+									</g:if>
                                 </g:each>
                                 </ul>
                             </td>
-                            
                             <td valign="top" class="name"><g:message code="taoRegion.label" default="Tao Region" /></td>
                             <td valign="top" class="value"><g:link controller="taoRegion" action="show" id="${contactGroupInstance?.taoRegion?.id}">${contactGroupInstance?.taoRegion?.encodeAsHTML()}</g:link></td>
-						
                         </tr>
-						
                     </tbody>
                 </table>
             </div>
