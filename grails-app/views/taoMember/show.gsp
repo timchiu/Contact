@@ -62,6 +62,8 @@
 	                                    <g:if test="${'Cantonese' == l}">粵</g:if>
 	                                    <g:if test="${'vietnamese' == l}">越</g:if>
 	                                    <g:if test="${'japanese' == l}">日</g:if>
+										<g:if test="${'other' == l}">其他</g:if><%--
+	                                    
                                 </g:each>
                             </td>
                             <td valign="top" class="name"><g:message code="taoMember.notes.label" default="Notes" /></td>

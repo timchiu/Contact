@@ -73,6 +73,7 @@
 	                                    <g:if test="${'Cantonese' == l}">粵</g:if>
 	                                    <g:if test="${'vietnamese' == l}">越南</g:if>
 	                                    <g:if test="${'Vietnamese' == l}">越南</g:if>
+	                                    <g:if test="${'other' == l}">其他</g:if>
 	                                </g:each>
                             </td>
                             <td>${fieldValue(bean: taoMemberInstance, field: "phoneNumber")}</td>

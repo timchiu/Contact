@@ -20,8 +20,8 @@ environments {
 //            url = "jdbc:hsqldb:mem:devDB"
 			driverClassName = "com.mysql.jdbc.Driver"
 			url = "jdbc:mysql://localhost/fycd_contact?useUnicode=yes&characterEncoding=UTF-8"
-			username = "zhande"
-			password = "hengde"
+			username = "fillIn"
+			password = "fillIn"
         }
     }
     test {

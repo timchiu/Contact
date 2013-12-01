@@ -290,7 +290,7 @@
                                   <label for="languages"><g:message code="taoMember.languages.label" default="Languages" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'languages', 'errors')}">
-                                    <g:select multiple="multiple" from="${['english', 'mandarin', 'cantonese', 'vietnamese', 'other']}" valueMessagePrefix="taoMember.languages" name="languages" multiple/>
+                                    <g:select multiple="multiple" from="${['english', 'mandarin', 'cantonese', 'vietnamese', 'japanese', 'other']}" valueMessagePrefix="taoMember.languages" name="languages" multiple/>
                                 </td>
 							
                                 <td valign="top" class="name">

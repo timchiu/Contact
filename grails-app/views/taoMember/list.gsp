@@ -73,7 +73,9 @@
 	                                    <g:if test="${'cantonese' == l}">粵</g:if>
 	                                    <g:if test="${'Cantonese' == l}">粵</g:if>
 	                                    <g:if test="${'vietnamese' == l}">越南</g:if>
-	                                    <g:if test="${'Vietnamese' == l}">越南</g:if><%--
+	                                    <g:if test="${'Vietnamese' == l}">越南</g:if>
+										<g:if test="${'japanese' == l}">日</g:if>
+	                                    <g:if test="${'other' == l}">其他</g:if><%--
 	                                    ${l?.encodeAsHTML()}<br>
 	                                --%></g:each>
                             </td>
