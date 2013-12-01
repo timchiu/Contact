@@ -15,7 +15,7 @@ class TaoMemberController {
 	static navigation = [
 		group:'tabs',
 		order:1,
-		title:"道親",
+		title:"ÈÅìË¶™",
 		action:'list',
 		isVisible: { (SecurityUtils.subject?.isAuthenticated() || SecurityUtils.subject?.isRemembered()) &&
 			(SecurityUtils.subject?.hasRole(["member"]) || SecurityUtils.subject?.hasRole(["groupLeader"]) ||
@@ -24,8 +24,8 @@ class TaoMemberController {
 				SecurityUtils.subject?.hasRole(["academicLeader"])) }
 	]
 
-	static genderList = ["Man", "Woman", "Boy", "Girl"]
-	static educationLevels = ["Kindergarden", "Elementary", "Middle School", "High School", "Bachelors", "Masters", "PhD"]
+	static genderList = ["man", "woman", "boy", "girl"]
+	static educationLevels = ["kg", "el", "jh", "hs", "bs", "ms", "dr"]
 	static grades = 0..17
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -50,7 +50,8 @@ class TaoMemberController {
     def create = {
         def taoMemberInstance = new TaoMember()
         taoMemberInstance.properties = params
-        return [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()]
+        return [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, educationLevels: educationLevels, 
+			languageList: getLanguages(), taoGroupNames: getTaoGroupNames(), taoReceivingTimes: getTaoReceivingTimes()]
     }
 	
 	def getTaoGroupNames = {
@@ -69,6 +70,22 @@ class TaoMemberController {
 		def cantonese = message(code: "taoMember.languages.cantonese")
 		def vietnamese = message(code: "taoMember.languages.vietnamese")
 		return [mandarin, english, cantonese, vietnamese]
+	}
+
+	def getTaoReceivingTimes = {
+		def one = message(code: "taoMember.taoReceivingTime.one")
+		def two = message(code: "taoMember.taoReceivingTime.two")
+		def three = message(code: "taoMember.taoReceivingTime.three")
+		def four = message(code: "taoMember.taoReceivingTime.four")
+		def five = message(code: "taoMember.taoReceivingTime.five")
+		def six = message(code: "taoMember.taoReceivingTime.six")
+		def seven = message(code: "taoMember.taoReceivingTime.seven")
+		def eight = message(code: "taoMember.taoReceivingTime.eight")
+		def nine = message(code: "taoMember.taoReceivingTime.nine")
+		def ten = message(code: "taoMember.taoReceivingTime.ten")
+		def eleven = message(code: "taoMember.taoReceivingTime.eleven")
+		def twelve = message(code: "taoMember.taoReceivingTime.twelve")
+		return [one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve]
 	}
 
 	def save = {
@@ -96,6 +113,8 @@ class TaoMemberController {
 		// set password
 		if (params.password) {
 			taoMemberInstance.passwordHash = new Sha256Hash(params.password).toHex()
+		} else {
+			taoMemberInstance.passwordHash = "please change me"
 		}
 		
         if (taoMemberInstance.save(flush: true)) {
@@ -103,7 +122,8 @@ class TaoMemberController {
             redirect(action: "show", id: taoMemberInstance.id)
         }
         else {
-            render(view: "create", model: [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()])
+            render(view: "create", model: [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, 
+				educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames(), taoReceivingTimes: getTaoReceivingTimes()])
         }
     }
 
@@ -125,7 +145,8 @@ class TaoMemberController {
             redirect(action: "list")
         }
         else {
-            return [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, educationLevels: educationLevels, languageList: getLanguages(), taoGroupNames: getTaoGroupNames()]
+            return [taoMemberInstance: taoMemberInstance, genderList: genderList, grades: grades, educationLevels: educationLevels, 
+				languageList: getLanguages(), taoGroupNames: getTaoGroupNames(), taoReceivingTimes: getTaoReceivingTimes()]
         }
     }
 
@@ -201,7 +222,7 @@ class TaoMemberController {
 	
 	def autoCompleteTaoMember = {
 		def q = params.query?.trim()
-		def list = TaoMember.findAllByEnglishNameIlikeOrChineseNameIlike("%${q}%","%${q}%")
+		def list = TaoMember.findAllByEnglishNameIlikeOrChineseNameIlike("${q}%","${q}%")
 		def jsonList = list.collect { [ id: it.id, name: it.toString() ] }
 		def jsonResult = [
 			result: jsonList
@@ -211,7 +232,7 @@ class TaoMemberController {
 
 	def autoCompleteTransmittingMaster = {
 		def masterRole = Role.findByName("master") 
-		def masters= TaoMember.executeQuery('from TaoMember where :masterRole in elements(roles)', [masterRole: masterRole])
+		def masters= TaoMember.executeQuery('from TaoMember where :masterRole in elements(roles)', [masterRole: masterRole], [max: 20])
 		def jsonList = masters.collect { [ id: it.id, name: it.toString() ] }
 		def jsonResult = [
 			result: jsonList
@@ -230,7 +251,7 @@ class TaoMemberController {
 		params.max = Math.min(params.max ? params.int('max') : 20, 1000)
 		def searchResults = TaoMember.search(q, params)
 
-				def subject = SecurityUtils.subject
+		def subject = SecurityUtils.subject
 		if (subject.hasRole("regionLeader") || subject.hasRole("master") || subject.hasRole("seniorLecturer") || subject.hasRole("admin")) {
 			flash.message = "${searchResults.total} results found for search: ${params.q}"
 			flash.q = q

@@ -39,7 +39,7 @@
 		</div>
 
 	</div>
-   <div id="ft" role="contentinfo" style="text-align:center;margin-top:15px;"><p>&copy;2011 FYCD.US</p></div>
+   <div id="ft" role="contentinfo" style="text-align:center;margin-top:15px;"><p>&copy;2011-2014 FYCD.US</p></div>
 </div>
 </body>
 </html>

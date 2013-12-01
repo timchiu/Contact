@@ -24,22 +24,20 @@
                 <table>
                     <thead>
                         <tr>
-                            <g:sortableColumn property="chineseName" title="${message(code: 'taoMember.chineseName.label', default: 'C.Name')}" />
+                            <g:sortableColumn property="chineseName" style="white-space: nowrap" title="${message(code: 'taoMember.chineseName.label', default: 'C.Name')}" />
                             <g:sortableColumn property="englishName" title="${message(code: 'taoMember.englishName.label', default: 'E.Name')}" />
-                            <g:sortableColumn property="gender" title="${message(code: 'taoMember.gender.label', default: 'Gender')}" />
-                            <g:sortableColumn property="age" title="${message(code: 'taoMember.age.label', default: 'Age')}" />
+                            <g:sortableColumn property="gender" style="white-space: nowrap" title="${message(code: 'taoMember.gender.label', default: 'Gender')}" />
+                            <g:sortableColumn property="age" style="white-space: nowrap" title="${message(code: 'taoMember.age.label', default: 'Age')}" />
                             <shiro:hasAnyRoles name="academicLeader">
 	                        	<g:sortableColumn property="grade" title="${message(code: 'taoMember.grade.label', default: 'Grade')}" />
                             </shiro:hasAnyRoles>
-                            <th><g:message code="taoMember.languages.label" default="Languages" /></th>
+                            <th style="white-space: nowrap" ><g:message code="taoMember.languages.label" default="Languages" /></th>
                             <g:sortableColumn property="phoneNumber" title="${message(code: 'taoMember.phoneNumber.label', default: 'Telephone')}" />
-                            <g:sortableColumn property="email" title="${message(code: 'taoMember.email.label', default: 'Email')}" />
                         	<g:sortableColumn property="contactPerson" title="${message(code: 'taoMember.contactPerson.label', default: 'Contact Person')}" />
                         	<g:sortableColumn property="introducer" title="${message(code: 'taoMember.introducer.label', default: 'Introducer')}" />
                         	<g:sortableColumn property="guarantor" title="${message(code: 'taoMember.guarantor.label', default: 'Guarantor')}" />
                         	<g:sortableColumn property="taoReceivingDate" title="${message(code: 'taoMember.taoReceivingDate.label', default: 'Tao Receiving Date')}" />
-                        	<g:sortableColumn property="taoSeminarDate" title="${message(code: 'taoMember.taoSeminarDate.label', default: 'Tao Seminar Date')}" />
-                        	<g:sortableColumn property="completedTaoSeminar" title="${message(code: 'taoMember.completedTaoSeminar.label', default: 'Completed Tao Seminar')}" />
+                        	<g:sortableColumn property="completedTaoSeminar" style="white-space: nowrap" title="${message(code: 'taoMember.completedTaoSeminar.label', default: 'Completed Tao Seminar')}" />
                         	<g:sortableColumn property="contactRecords.dateCreated" title="${message(code: 'taoMember.contactRecords.dateCreated.label', default: 'Last Contacted Date')}" />
                         	<g:sortableColumn property="contactRecords.createdBy" title="${message(code: 'taoMember.contactRecords.createdBy.label', default: 'Last Contacted By')}" />
 							<g:sortableColumn property="contactRecords.description" title="${message(code: 'taoMember.contactRecords.description.label', default: 'Last Contact Details')}" />
@@ -50,7 +48,7 @@
                     <g:each in="${taoMemberInstanceList}" status="i" var="taoMemberInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link controller="taoMember" action="show" id="${taoMemberInstance.id}">${fieldValue(bean: taoMemberInstance, field: "chineseName")}</g:link></td>
+                            <td style="white-space: nowrap" ><g:link controller="taoMember" action="show" id="${taoMemberInstance.id}">${fieldValue(bean: taoMemberInstance, field: "chineseName")}</g:link></td>
                             <td><g:link controller="taoMember" action="show" id="${taoMemberInstance.id}">${fieldValue(bean: taoMemberInstance, field: "englishName")}</g:link></td>
                             <td>
                             	<g:if test="${taoMemberInstance?.gender == 'Man'}">乾</g:if>
@@ -67,17 +65,22 @@
                             
                             <td>
 	                                <g:each in="${taoMemberInstance?.languages?}" var="l">
-	                                    ${l?.encodeAsHTML()}<br>
+	                                    <g:if test="${'mandarin' == l}">國</g:if>
+	                                    <g:if test="${'Mandarin' == l}">國</g:if>
+	                                    <g:if test="${'english' == l}">英</g:if>
+	                                    <g:if test="${'English' == l}">英</g:if>
+	                                    <g:if test="${'cantonese' == l}">粵</g:if>
+	                                    <g:if test="${'Cantonese' == l}">粵</g:if>
+	                                    <g:if test="${'vietnamese' == l}">越南</g:if>
+	                                    <g:if test="${'Vietnamese' == l}">越南</g:if>
 	                                </g:each>
                             </td>
                             <td>${fieldValue(bean: taoMemberInstance, field: "phoneNumber")}</td>
-                            <td>${fieldValue(bean: taoMemberInstance, field: "email")}</td>
-                            <td>${fieldValue(bean: taoMemberInstance, field: "contactPerson")}</td>
-                            <td>${fieldValue(bean: taoMemberInstance, field: "introducer")}</td>
-                            <td>${fieldValue(bean: taoMemberInstance, field: "guarantor")}</td>
+                            <td style="white-space: nowrap" >${fieldValue(bean: taoMemberInstance, field: "contactPerson")}</td>
+                            <td style="white-space: nowrap" >${fieldValue(bean: taoMemberInstance, field: "introducer")}</td>
+                            <td style="white-space: nowrap" >${fieldValue(bean: taoMemberInstance, field: "guarantor")}</td>
                             <td><g:formatDate format="yyyy-MM-dd" date="${taoMemberInstance?.taoReceivingDate}"/></td>
-                            <td><g:formatDate format="yyyy-MM-dd" date="${taoMemberInstance?.taoSeminarDate}"/></td>
-                            <td>${fieldValue(bean: taoMemberInstance, field: "completedTaoSeminar")}</td>
+                            <td><g:checkBox name="completedTaoSeminar" value="${taoMemberInstance.completedTaoSeminar}" /></td>
                             
                             <g:if test="${taoMemberInstance?.contactRecords?.size() == 0}">
                             	<td></td>

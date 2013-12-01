@@ -66,8 +66,10 @@
                                   <label for="gender"><g:message code="taoMember.gender.label" default="Gender" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'gender', 'errors')}">
-                                	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, academicLeader">
-	                                    <g:select name="gender" from="${genderList}" value="${taoMemberInstance?.gender?.encodeAsHTML()}" noSelection="['null': 'Please Choose...']"/>
+                                	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, academicLeader"><%--
+	                                    <g:select name="gender" from="${genderList}" valueMessagePrefix="taoMember.gender" value="${taoMemberInstance?.gender?.encodeAsHTML()}" noSelection="['null': nullSelect]"/>
+	                                --%>
+   	                                    <g:select name="gender" from="${['man', 'woman', 'boy', 'girl']}" valueMessagePrefix="taoMember.gender" value="${taoMemberInstance?.gender?.encodeAsHTML()}" noSelection="['null': '請選...']"/>
 	                                </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, groupLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "gender")}
@@ -79,7 +81,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'currentTemple', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, academicLeader">
-	                                    <g:select name="currentTemple.id" from="${com.fycd.contact.Temple.list()}" optionKey="id" value="${taoMemberInstance?.currentTemple?.id}" noSelection="['null': '']" />
+	                                    <g:select name="currentTemple.id" from="${com.fycd.contact.Temple.list()}" optionKey="id" value="${taoMemberInstance?.currentTemple?.id}" noSelection="['null': '請選...']" />
 	                                </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, groupLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "currentTemple")}
@@ -203,7 +205,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'contactPerson', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, academicLeader">
-                                		<gui:autoComplete id="contactPerson" controller="taoMember" action="autoCompleteTaoMember" value="${taoMemberInstance?.contactPerson?.toString()}" />
+                                		<gui:autoComplete id="contactPerson" minQueryLength="2" controller="taoMember" action="autoCompleteTaoMember" value="${taoMemberInstance?.contactPerson?.toString()}" />
 	                                </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, groupLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "contactPerson")}
@@ -215,7 +217,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'contactGroup', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, academicLeader">
-	                                    <g:select name="contactGroup.id" from="${com.fycd.contact.ContactGroup.list()}" optionKey="id" value="${taoMemberInstance?.contactGroup?.id}" noSelection="['null': '']" />
+	                                    <g:select name="contactGroup.id" from="${com.fycd.contact.ContactGroup.list()}" optionKey="id" value="${taoMemberInstance?.contactGroup?.id}" noSelection="['null': '請選...']" />
 	                                </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, groupLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "contactGroup")}
@@ -230,7 +232,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'introducer', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, academicLeader">
-	                                    <gui:autoComplete id="introducer" controller="taoMember" action="autoCompleteTaoMember" value="${taoMemberInstance?.introducer?.toString()}" />
+	                                    <gui:autoComplete id="introducer" minQueryLength="2" controller="taoMember" action="autoCompleteTaoMember" value="${taoMemberInstance?.introducer?.toString()}" />
 	                                </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, groupLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "introducer")}
@@ -242,7 +244,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'guarantor', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, academicLeader">
-										<gui:autoComplete id="guarantor" controller="taoMember" action="autoCompleteTaoMember" value="${taoMemberInstance?.guarantor?.toString()}" />
+										<gui:autoComplete id="guarantor" minQueryLength="2" controller="taoMember" action="autoCompleteTaoMember" value="${taoMemberInstance?.guarantor?.toString()}" />
 	                                </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, groupLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "guarantor")}
@@ -258,7 +260,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'birthDate', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, academicLeader">
-	                                    <g:datePicker name="birthDate" precision="day" value="${taoMemberInstance?.birthDate}" default="none" noSelection="['': '']" />
+	                                    <g:datePicker name="birthDate" precision="year" value="${taoMemberInstance?.birthDate}" years="${1920..2014}" default="none" noSelection="['': '']" />
                                     </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, groupLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "birthDate")}
@@ -270,7 +272,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'educationLevel', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, groupLeader, academicLeader">
-	                                    <g:select name="educationLevel" from="${educationLevels}" value="${taoMemberInstance?.educationLevel}" noSelection="['null': 'Please Choose...']"/>
+                                		<g:select name="educationLevel" from="${['kg', 'el', 'jh', 'hs', 'bs', 'ms', 'dr']}" valueMessagePrefix="taoMember.educationLevel" value="${taoMemberInstance?.educationLevel?.encodeAsHTML()}" noSelection="['null': '請選...']"/>
                                     </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "educationLevel")}
@@ -284,7 +286,7 @@
                                   <label for="grade"><g:message code="taoMember.grade.label" default="Grade" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'grade', 'errors')}">
-	                                    <g:select name="grade" from="${grades}" value="${taoMemberInstance?.grade ?: 0}" noSelection="['null': 'Please Choose...']"/>
+	                                    <g:select name="grade" from="${grades}" value="${taoMemberInstance?.grade ?: 0}" noSelection="['null': '請選...']"/>
                                 </td>
 
                                 <td valign="top" class="name">
@@ -337,7 +339,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoReceivingDate', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer">
-	                                    <g:datePicker name="taoReceivingDate" precision="day" value="${taoMemberInstance?.taoReceivingDate}" default="none" noSelection="['': '']" />
+	                                    <g:datePicker name="taoReceivingDate" precision="day" value="${taoMemberInstance?.taoReceivingDate}" years="${1930..2014}" default="none" noSelection="['': '']" />
                                     </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "taoReceivingDate")}
@@ -365,7 +367,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoReceivingTime', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer">
-                                    	<g:textField name="taoReceivingTime" value="${taoMemberInstance?.taoReceivingTime}" />
+                                    	<g:select name="taoReceivingTime" from="${taoReceivingTimes}" value="${taoMemberInstance?.taoReceivingTime}" noSelection="['null': '請選...']"/>
                                     </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "taoReceivingTime")}
@@ -377,7 +379,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoGroup', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer">
-                                    	<g:select name="taoGroup" from="${taoGroupNames}" value="${taoMemberInstance?.taoGroup}" noSelection="['null': 'Please Choose...']"/>
+                                    	<g:select name="taoGroup" from="${taoGroupNames}" value="${taoMemberInstance?.taoGroup}" noSelection="['null': '請選...']"/>
                                     </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "taoGroup")}
@@ -393,7 +395,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoReceivingTemple', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer">
-	                                    <g:select name="taoReceivingTemple.id" from="${com.fycd.contact.Temple.list()}" optionKey="id" value="${taoMemberInstance?.taoReceivingTemple?.id}" noSelection="['null': '']" />
+	                                    <g:select name="taoReceivingTemple.id" from="${com.fycd.contact.Temple.list()}" optionKey="id" value="${taoMemberInstance?.taoReceivingTemple?.id}" noSelection="['null': '請選...']" />
                                     </shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member, regionLeader, groupLeader, academicLeader">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "taoReceivingTemple")}
@@ -406,18 +408,162 @@
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'transmittingMaster', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer">
                                 		<select name="transmittingMaster.id" id="transmittingMaster.id" >
-                                			<g:if test="${taoMemberInstance.transmittingMaster == 0 }">
-												<option value="null">Please choose...</option>
+                                			<g:if test="${taoMemberInstance.transmittingMaster == null }">
+												<option value="null">請選...</option>
+												<option value="1047">夏樹華</option>
 												<option value="1064">周宏華</option>
 												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
                                 			</g:if>
-                                			<g:elseif test="${taoMemberInstance.transmittingMaster == 1064 }">
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1064 }">
+												<option value="1047">夏樹華</option>
 												<option value="1064" selected>周宏華</option>
 												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
                                 			</g:elseif>
-                                			<g:elseif test="${taoMemberInstance.transmittingMaster == 1067 }">
-												<option value="1064" selected>周宏華</option>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1067 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
 												<option value="1067" selected>林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1047 }">
+												<option value="1047" selected>夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1117 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117" selected>劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1570 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570" selected>黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1572 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572" selected>黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1578 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578" selected>寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1579 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579" selected>明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1097 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097" selected>盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1656 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656" selected>陳功明</option>
+												<option value="1689">江政歆</option>
+                                			</g:elseif>
+                                			<g:elseif test="${taoMemberInstance.transmittingMaster?.id == 1689 }">
+												<option value="1047">夏樹華</option>
+												<option value="1064">周宏華</option>
+												<option value="1067">林慧玲</option>
+												<option value="1117">劉靜宜</option>
+												<option value="1570">黃新契</option>
+												<option value="1572">黃美鳳</option>
+												<option value="1578">寶光黃經理</option>
+												<option value="1579">明光黃經理</option>
+												<option value="1097">盧炳棟</option>
+												<option value="1656">陳功明</option>
+												<option value="1689" selected>江政歆</option>
                                 			</g:elseif>
 										</select>
                                     </shiro:hasAnyRoles>
@@ -433,8 +579,7 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'languages', 'errors')}">
                                 	<shiro:hasAnyRoles name="admin, master, seniorLecturer, regionLeader, groupLeader, academicLeader">
-	                                    <g:select multiple="multiple" from="${['english', 'mandarin', 'cantonese', 'vietnamese']}" valueMessagePrefix="taoMember.languages" name="languages" multiple/>
-                                    </shiro:hasAnyRoles>
+	                                    <g:select multiple="multiple" from="${['english', 'mandarin', 'cantonese', 'vietnamese', 'japanese', 'other']}" valueMessagePrefix="taoMember.languages" value="${taoMemberInstance?.languages}" name="languages" multiple/></shiro:hasAnyRoles>
 									<shiro:hasAnyRoles name="member">
 	                                    ${fieldValue(bean: taoMemberInstance, field: "languages")}
 	                                </shiro:hasAnyRoles>                                
@@ -545,6 +690,10 @@
 	                                </shiro:hasAnyRoles>                                
                                 </td>
                                 
+                                <td valign="top" class="name"></td>
+                                <td valign="top" class="value">
+                                <%--
+                                
                                 <td valign="top" class="name">
                                   <label for="username"><g:message code="taoMember.excelId.label" default="ExcelId" /></label>
                                 </td>
@@ -556,7 +705,7 @@
 	                                    ${fieldValue(bean: taoMemberInstance, field: "excelId")}
 	                                </shiro:hasAnyRoles>                                
                                 </td>
-                            </tr>
+                            --%></tr>
 						</shiro:hasAnyRoles>			
                         </tbody>
                     </table>

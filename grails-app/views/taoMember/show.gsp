@@ -41,7 +41,12 @@
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="taoMember.gender.label" default="Gender" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: taoMemberInstance, field: "gender")}</td>
+                            <td valign="top" class="value">
+                            	<g:if test="${taoMemberInstance?.gender == 'man'}">乾</g:if>
+                            	<g:if test="${taoMemberInstance?.gender == 'woman'}">坤</g:if>
+                            	<g:if test="${taoMemberInstance?.gender == 'boy'}">童</g:if>
+                            	<g:if test="${taoMemberInstance?.gender == 'girl'}">女</g:if>
+                            </td>
                             <td valign="top" class="name"><g:message code="taoMember.address.label" default="Address" /></td>
                             <td valign="top" class="value">${fieldValue(bean: taoMemberInstance, field: "address")}</td>
                         </tr>
@@ -49,7 +54,14 @@
                             <td valign="top" class="name"><g:message code="taoMember.languages.label" default="Languages" /></td>
 							<td valign="top" class="value">
                                 <g:each in="${taoMemberInstance.languages}" var="l">
-                                    ${l?.encodeAsHTML()}<br>
+	                                    <g:if test="${'mandarin' == l}">國</g:if>
+	                                    <g:if test="${'Mandarin' == l}">國</g:if>
+	                                    <g:if test="${'english' == l}">英</g:if>
+	                                    <g:if test="${'English' == l}">英</g:if>
+	                                    <g:if test="${'cantonese' == l}">粵</g:if>
+	                                    <g:if test="${'Cantonese' == l}">粵</g:if>
+	                                    <g:if test="${'vietnamese' == l}">越</g:if>
+	                                    <g:if test="${'japanese' == l}">日</g:if>
                                 </g:each>
                             </td>
                             <td valign="top" class="name"><g:message code="taoMember.notes.label" default="Notes" /></td>
@@ -59,7 +71,7 @@
                             <td valign="top" class="name"><g:message code="taoMember.taoReceivingDate.label" default="Tao Receiving Date" /></td>
                             <td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${taoMemberInstance?.taoReceivingDate}"/></td>
                             <td valign="top" class="name"><g:message code="taoMember.completedTaoSeminar.label" default="Completed Tao Seminar" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: taoMemberInstance, field: "completedTaoSeminar")}</td>
+                            <td valign="top" class="value"><g:checkBox name="completedTaoSeminar" value="${taoMemberInstance.completedTaoSeminar}" /></td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="taoMember.vegetarianDate.label" default="Vegetarian Date" /></td>
@@ -98,7 +110,7 @@
                                   <label for="description"><g:message code="contactRecord.description.label" default="Description" /></label>
                                 </td -->
                                 <td valign="top" class="value">
-                                    <g:textArea name="description" cols="50" rows="5" value="Enter latest TaoMember info here..." onFocus="this.value=''; return false;"/>
+                                    <g:textArea name="description" cols="50" rows="5" value="請輸入聯絡詳情..." onFocus="this.value=''; return false;"/>
                                 </td>
                             </tr>
                         </tbody>
@@ -112,3 +124,4 @@
         </div>
     </body>
 </html>
+

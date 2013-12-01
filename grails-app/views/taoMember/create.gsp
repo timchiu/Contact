@@ -66,7 +66,7 @@
                                     <label for="currentTemple"><g:message code="taoMember.currentTemple.label" default="Current Temple" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'currentTemple', 'errors')}">
-                                    <g:select name="currentTemple.id" from="${com.fycd.contact.Temple.list()}" optionKey="id" value="${taoMemberInstance?.currentTemple?.id}" noSelection="['null': '']" />
+                                    <g:select name="currentTemple.id" from="${com.fycd.contact.Temple.list()}" optionKey="id" value="${taoMemberInstance?.currentTemple?.id}" noSelection="['null': nullSelect]" />
                                 </td>
 							
                             </tr>
@@ -144,14 +144,14 @@
                                   <label for="contactPerson"><g:message code="taoMember.contactPerson.label" default="Contact Person" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'contactPerson', 'errors')}">
-                                    <gui:autoComplete id="contactPerson" controller="taoMember" action="autoCompleteTaoMember" value="${taoMemberInstance?.contactPerson?.toString()}" />
+                                    <gui:autoComplete id="contactPerson" minQueryLength="2" controller="taoMember" action="autoCompleteTaoMember" value="${taoMemberInstance?.contactPerson?.toString()}" />
                                 </td>
 
                                 <td valign="top" class="name">
                                   <label for="contactGroup"><g:message code="contactGroup.label" default="Contact Group" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'contactGroup', 'errors')}">
-                                    <g:select name="contactGroup.id" from="${com.fycd.contact.ContactGroup.list()}" optionKey="id" value="${taoMemberInstance?.contactGroup?.id}" noSelection="['null': '']" />
+                                    <g:select name="contactGroup.id" from="${com.fycd.contact.ContactGroup.list()}" optionKey="id" value="${taoMemberInstance?.contactGroup?.id}" noSelection="['null': nullSelect]" />
                                 </td>
                             </tr>
 							
@@ -161,14 +161,14 @@
                                   <label for="introducer"><g:message code="taoMember.introducer.label" default="Introducer" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'introducer', 'errors')}">
-									<gui:autoComplete id="introducer" controller="taoMember" action="autoCompleteTaoMember"/>                                  
+									<gui:autoComplete id="introducer" minQueryLength="2" controller="taoMember" action="autoCompleteTaoMember"/>                                  
 	                            </td>
 							
                                 <td valign="top" class="name">
                                   <label for="guarantor"><g:message code="taoMember.guarantor.label" default="Guarantor" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'guarantor', 'errors')}">
-									<gui:autoComplete id="guarantor" controller="taoMember" action="autoCompleteTaoMember"/>                                  
+									<gui:autoComplete id="guarantor" minQueryLength="2" controller="taoMember" action="autoCompleteTaoMember"/>                                  
                                 </td>
 							
                             </tr>
@@ -178,14 +178,14 @@
                                   <label for="birthDate"><g:message code="taoMember.birthDate.label" default="Birth Date" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'birthDate', 'errors')}">
-                                	<g:datePicker name="birthDate" precision="day" value="${taoMemberInstance?.birthDate}" default="none" noSelection="['': '']" />
+                                	<g:datePicker name="birthDate" precision="year" value="${taoMemberInstance?.birthDate}" years="${1920..2014}" default="none" noSelection="['': '']" />
                                 </td>
 							
                                 <td valign="top" class="name">
                                   <label for="educationLevel"><g:message code="taoMember.educationLevel.label" default="Education Level" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'educationLevel', 'errors')}">
-                                    <g:select name="educationLevel" from="${educationLevels}" value="${taoMemberInstance?.educationLevel}" noSelection="['null': nullSelect]"/>
+	                                <g:select name="educationLevel" from="${educationLevels}" valueMessagePrefix="taoMember.educationLevel" value="${taoMemberInstance?.educationLevel?.encodeAsHTML()}" noSelection="['null': nullSelect]"/>
                                 </td>
 							
                             </tr>
@@ -195,7 +195,7 @@
                                   	<label for="grade"><g:message code="taoMember.grade.label" default="Grade" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'grade', 'errors')}">
-	                            	<g:select name="grade" from="${grades}" value="${taoMemberInstance?.grade ?: 0}" noSelection="['null': 'Please Choose...']"/>
+	                            	<g:select name="grade" from="${grades}" value="${taoMemberInstance?.grade ?: 0}" noSelection="['null': nullSelect]"/>
                                 </td>
 
                                 <td valign="top" class="name"/>
@@ -227,7 +227,7 @@
                                   <label for="taoReceivingDate"><g:message code="taoMember.taoReceivingDate.label" default="Tao Receiving Date" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoReceivingDate', 'errors')}">
-                                    <g:datePicker name="taoReceivingDate" precision="day" value="${taoMemberInstance?.taoReceivingDate}" default="none" noSelection="['': '']" />
+                                    <g:datePicker name="taoReceivingDate" precision="day" value="${taoMemberInstance?.taoReceivingDate}" years="${1930..2014}" default="none" noSelection="['': '']" />
                                 </td>
 							
                                 <td valign="top" class="name">
@@ -246,7 +246,7 @@
                                   <label for="taoReceivingTime"><g:message code="taoMember.taoReceivingTime.label" default="Tao Receiving Time" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoReceivingTime', 'errors')}">
-                                   	<g:textField name="taoReceivingTime" value="${taoMemberInstance?.taoReceivingTime}" />
+                                   	<g:select name="taoReceivingTime" from="${taoReceivingTimes}" value="${taoMemberInstance?.taoReceivingTime}" noSelection="['null': '請選...']"/>
                                 </td>
 							
                                 <td valign="top" class="name">
@@ -266,14 +266,18 @@
                                   <label for="taoReceivingTemple"><g:message code="taoMember.taoReceivingTemple.label" default="Tao Receiving Temple" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'taoReceivingTemple', 'errors')}">
-                                    <g:select name="taoReceivingTemple.id" from="${com.fycd.contact.Temple.list()}" optionKey="id" value="${taoMemberInstance?.taoReceivingTemple?.id}" noSelection="['null': '']" />
+                                    <g:select name="taoReceivingTemple.id" from="${com.fycd.contact.Temple.list()}" optionKey="id" value="${taoMemberInstance?.taoReceivingTemple?.id}" noSelection="['null': nullSelect]" />
                                 </td>
 							
                                 <td valign="top" class="name">
                                   <label for="transmittingMaster"><g:message code="taoMember.transmittingMaster.label" default="Transmitting Master" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'transmittingMaster', 'errors')}">
+                                    
                                     <gui:autoComplete id="transmittingMaster" controller="taoMember" action="autoCompleteTransmittingMaster"/>
+                                    
+									<%--<g:select name="transmittingMaster.id" from="${transmittingMasters}" optionKey="id" value="${taoMemberInstance?.transmittingMaster?.id}" noSelection="['null': nullSelect]" />--%>
+                                    
                                 </td>
 							
                             </tr>
@@ -286,7 +290,7 @@
                                   <label for="languages"><g:message code="taoMember.languages.label" default="Languages" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: taoMemberInstance, field: 'languages', 'errors')}">
-                                    <g:select multiple="multiple" from="${['english', 'mandarin', 'cantonese', 'vietnamese']}" valueMessagePrefix="taoMember.languages" name="languages" multiple/>
+                                    <g:select multiple="multiple" from="${['english', 'mandarin', 'cantonese', 'vietnamese', 'other']}" valueMessagePrefix="taoMember.languages" name="languages" multiple/>
                                 </td>
 							
                                 <td valign="top" class="name">

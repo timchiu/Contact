@@ -20,8 +20,8 @@ environments {
 //            url = "jdbc:hsqldb:mem:devDB"
 			driverClassName = "com.mysql.jdbc.Driver"
 			url = "jdbc:mysql://localhost/fycd_contact?useUnicode=yes&characterEncoding=UTF-8"
-			username = "fillIn"
-			password = "fillIn"
+			username = "zhande"
+			password = "hengde"
         }
     }
     test {
@@ -41,8 +41,8 @@ environments {
 //            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
 			driverClassName = "com.mysql.jdbc.Driver"
 			url = "jdbc:mysql://localhost/fycd_contact?useUnicode=yes&characterEncoding=UTF-8"
-			username = "fillIn"
-			password = "fillIn"
+			username = "zhande"
+			password = "hengde"
         }
     }
 }

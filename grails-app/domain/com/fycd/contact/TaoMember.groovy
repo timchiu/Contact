@@ -87,11 +87,11 @@ class TaoMember extends User implements Comparable {
 	}
 	
 	String toString() {
-		if (chineseName != null && englishName != null) {
-			return chineseName + "(" + englishName + ")"
-		} else {
+//		if (chineseName != null && englishName != null) {
+//			return chineseName + "(" + englishName + ")"
+//		} else {
 			return chineseName ?: englishName
-		}
+//		}
 	}
 	
 	String printName() {

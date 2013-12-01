@@ -13,6 +13,7 @@ class User {
 
     static constraints = {
         username(nullable: true, blank: false, size:3..20, unique: true)
+//		passwordHash(nullable: true, blank: false, size:3..20)
 //		password(size: 6..15,
 //			validator: { passwordHash, user ->
 //				return passwordHash != user.username
