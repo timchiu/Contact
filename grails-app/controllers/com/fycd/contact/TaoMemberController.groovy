@@ -15,7 +15,7 @@ class TaoMemberController {
 	static navigation = [
 		group:'tabs',
 		order:1,
-		title:"ÈÅìË¶™",
+		title:"道親",
 		action:'list',
 		isVisible: { (SecurityUtils.subject?.isAuthenticated() || SecurityUtils.subject?.isRemembered()) &&
 			(SecurityUtils.subject?.hasRole(["member"]) || SecurityUtils.subject?.hasRole(["groupLeader"]) ||

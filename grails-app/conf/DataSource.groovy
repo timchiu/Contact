@@ -41,8 +41,8 @@ environments {
 //            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
 			driverClassName = "com.mysql.jdbc.Driver"
 			url = "jdbc:mysql://localhost/fycd_contact?useUnicode=yes&characterEncoding=UTF-8"
-			username = "zhande"
-			password = "hengde"
+			username = "fillIn"
+			password = "fillIn"
         }
     }
 }
